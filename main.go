@@ -1,6 +1,7 @@
 package main
 
 import (
+	"demo/password/account"
 	"fmt"
 	"math/rand/v2"
 )
@@ -17,12 +18,12 @@ func main() {
 	password := promptData("Введите пароль")
 	url := promptData("Введите URL")
 
-	myAccount, err := newAccountWithTimeStamp(login, password, url)
+	myAccount, err := account.NewAccountWithTimeStamp(login, password, url)
 	if err != nil {
 		fmt.Println("Неверный формат URL или Login")
 		return
 	}
-	myAccount.outputPassword()
+	myAccount.OutputPassword()
 	fmt.Println(myAccount)
 	// 8.4 Использование указателей
 	// a := 5

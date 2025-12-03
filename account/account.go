@@ -1,4 +1,4 @@
-package main
+package account
 
 import (
 	"errors"
@@ -6,28 +6,31 @@ import (
 	"math/rand/v2"
 	"net/url"
 	"time"
+
+	"github.com/fatih/color"
 )
 
 var letterRune = []rune("qwertyuiopasdfghjklzxcvbnm0123456789!@#$%^&-")
 
 // 9. Struct
-type account struct {
+type Account struct {
 	login    string
 	password string
 	url      string
 }
 
-type accountWithTimeStamp struct {
+type AccountWithTimeStamp struct {
 	cratedAt  time.Time
 	updatedAt time.Time
-	account
+	Account
 }
 
-func (acc account) outputPassword() {
-	fmt.Println(acc.login, acc.password, acc.url)
+func (acc Account) OutputPassword() {
+	color.Cyan(acc.login)
+	fmt.Println(acc.password, acc.url)
 }
 
-func (acc *account) generatePassword(length int) {
+func (acc *Account) generatePassword(length int) {
 	pass := make([]rune, length)
 	for i := range pass {
 		pass[i] = letterRune[rand.IntN(len(letterRune))]
@@ -35,7 +38,7 @@ func (acc *account) generatePassword(length int) {
 	acc.password = string(pass)
 }
 
-func newAccountWithTimeStamp(login, password, urlString string) (*accountWithTimeStamp, error) {
+func NewAccountWithTimeStamp(login, password, urlString string) (*AccountWithTimeStamp, error) {
 	_, err := url.ParseRequestURI(urlString)
 	if login == "" {
 		return nil, errors.New("EMPTY_LOGIN")
@@ -43,10 +46,10 @@ func newAccountWithTimeStamp(login, password, urlString string) (*accountWithTim
 	if err != nil {
 		return nil, errors.New("IVALID_URL")
 	}
-	newAcc := &accountWithTimeStamp{
+	newAcc := &AccountWithTimeStamp{
 		cratedAt:  time.Now(),
 		updatedAt: time.Now(),
-		account: account{
+		Account: Account{
 			url:      urlString,
 			login:    login,
 			password: password,
@@ -56,7 +59,7 @@ func newAccountWithTimeStamp(login, password, urlString string) (*accountWithTim
 		var length int
 		fmt.Print("\nВведите длинну пароля: ")
 		fmt.Scan(&length)
-		newAcc.account.generatePassword(length)
+		newAcc.Account.generatePassword(length)
 	}
 	return newAcc, nil
 }
