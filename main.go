@@ -2,11 +2,15 @@ package main
 
 import (
 	"demo/password/account"
+	"demo/password/files"
 	"fmt"
 	"math/rand/v2"
 )
 
 func main() {
+
+	files.WriteFile("Привет!!! Я файл", "file.txt")
+
 	fmt.Println(rand.IntN(10))
 
 	str := []rune("Привет!)")
