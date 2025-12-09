@@ -14,20 +14,16 @@ var letterRune = []rune("qwertyuiopasdfghjklzxcvbnm0123456789!@#$%^&-")
 
 // 9. Struct
 type Account struct {
-	login    string
-	password string
-	url      string
-}
-
-type AccountWithTimeStamp struct {
-	cratedAt  time.Time
-	updatedAt time.Time
-	Account
+	Login     string    `json:"login"`
+	Password  string    `json:"password"`
+	Url       string    `json:"url"`
+	CratedAt  time.Time `json:"cratedAt"`
+	UpdatedAt time.Time `json:"updatedAt"`
 }
 
 func (acc Account) OutputPassword() {
-	color.Cyan(acc.login)
-	fmt.Println(acc.password, acc.url)
+	color.Cyan(acc.Login)
+	fmt.Println(acc.Password, acc.Url)
 }
 
 func (acc *Account) generatePassword(length int) {
@@ -35,10 +31,10 @@ func (acc *Account) generatePassword(length int) {
 	for i := range pass {
 		pass[i] = letterRune[rand.IntN(len(letterRune))]
 	}
-	acc.password = string(pass)
+	acc.Password = string(pass)
 }
 
-func NewAccountWithTimeStamp(login, password, urlString string) (*AccountWithTimeStamp, error) {
+func NewAccount(login, password, urlString string) (*Account, error) {
 	_, err := url.ParseRequestURI(urlString)
 	if login == "" {
 		return nil, errors.New("EMPTY_LOGIN")
@@ -46,20 +42,23 @@ func NewAccountWithTimeStamp(login, password, urlString string) (*AccountWithTim
 	if err != nil {
 		return nil, errors.New("IVALID_URL")
 	}
-	newAcc := &AccountWithTimeStamp{
-		cratedAt:  time.Now(),
-		updatedAt: time.Now(),
-		Account: Account{
-			url:      urlString,
-			login:    login,
-			password: password,
-		},
+	newAcc := &Account{
+		CratedAt:  time.Now(),
+		UpdatedAt: time.Now(),
+		Url:       urlString,
+		Login:     login,
+		Password:  password,
 	}
-	if newAcc.password == "" {
+
+	// Демонстрация тегов в полях структуры для json
+	//field, _ := reflect.TypeOf(newAcc).Elem().FieldByName("login")
+	//fmt.Println(string(field.Tag))
+
+	if newAcc.Password == "" {
 		var length int
 		fmt.Print("\nВведите длинну пароля: ")
 		fmt.Scan(&length)
-		newAcc.Account.generatePassword(length)
+		newAcc.generatePassword(length)
 	}
 	return newAcc, nil
 }

@@ -8,7 +8,10 @@ import (
 )
 
 func main() {
-
+	files.ReadFile()
+	// Обращаемся к нашему пакету "demo/password/files"
+	// В нем вызываем функцию записи и передаем туда
+	// что записать и имя файла куда
 	files.WriteFile("Привет!!! Я файл", "file.txt")
 
 	fmt.Println(rand.IntN(10))
@@ -22,7 +25,7 @@ func main() {
 	password := promptData("Введите пароль")
 	url := promptData("Введите URL")
 
-	myAccount, err := account.NewAccountWithTimeStamp(login, password, url)
+	myAccount, err := account.NewAccount(login, password, url)
 	if err != nil {
 		fmt.Println("Неверный формат URL или Login")
 		return
