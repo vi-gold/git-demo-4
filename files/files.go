@@ -6,6 +6,24 @@ import (
 )
 
 func ReadFile() {
+
+}
+
+func WriteFile(content []byte, name string) {
+	file, err := os.Create(name)
+	if err != nil {
+		fmt.Println(err)
+	}
+	_, err = file.Write(content)
+	defer file.Close()
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+	fmt.Println("Запись успешна!")
+}
+
+func ReadFileTest() {
 	// Для открытия и чтения по байтам
 	// file, err := os.Open("files.txt")
 
@@ -20,7 +38,7 @@ func ReadFile() {
 }
 
 // Принимаем аргументы из main в функцию записи
-func WriteFile(content string, name string) {
+func WriteFileTest(content string, name string) {
 	// Создаем файл с полученным именем
 	// Функция создания возвращает указатель на структуру
 	// файла И ошибку при ее наличии

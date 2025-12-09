@@ -4,23 +4,35 @@ import (
 	"demo/password/account"
 	"demo/password/files"
 	"fmt"
-	"math/rand/v2"
 )
 
 func main() {
-	files.ReadFile()
+	//files.ReadFile()
 	// Обращаемся к нашему пакету "demo/password/files"
 	// В нем вызываем функцию записи и передаем туда
 	// что записать и имя файла куда
-	files.WriteFile("Привет!!! Я файл", "file.txt")
+	//files.WriteFile("Привет!!! Я файл", "file.txt")
 
-	fmt.Println(rand.IntN(10))
+	//Tests
+	// fmt.Println(rand.IntN(10))
+	// str := []rune("Привет!)")
+	// for _, ch := range string(str) {
+	// 	fmt.Println(ch, string(ch))
+	// }
 
-	str := []rune("Привет!)")
-	for _, ch := range string(str) {
-		fmt.Println(ch, string(ch))
-	}
+	// 8.4 Использование указателей
+	// a := 5
+	// double(&a)
+	// fmt.Println(a)
 
+	// 8.5 Reverse массива
+	// a := [4]int{1, 2, 3, 4}
+	// reverse(&a) // Меняет порядок элементов на обратный
+	// fmt.Println(a)
+	createAccount()
+}
+
+func createAccount() {
 	login := promptData("Введите логин")
 	password := promptData("Введите пароль")
 	url := promptData("Введите URL")
@@ -32,15 +44,13 @@ func main() {
 	}
 	myAccount.OutputPassword()
 	fmt.Println(myAccount)
-	// 8.4 Использование указателей
-	// a := 5
-	// double(&a)
-	// fmt.Println(a)
 
-	// 8.5 Reverse массива
-	// a := [4]int{1, 2, 3, 4}
-	// reverse(&a) // Меняет порядок элементов на обратный
-	// fmt.Println(a)
+	file, err := myAccount.ToBytes()
+	if err != nil {
+		fmt.Println("Не удалось преобразовать данные в json")
+		return
+	}
+	files.WriteFile(file, "data.json")
 }
 
 func promptData(prompt string) string {
