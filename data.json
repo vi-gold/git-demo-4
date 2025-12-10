@@ -1,1 +1,12 @@
-{"login":"a@a.ru","password":"q$a02c^^mx","url":"https://a.ru","cratedAt":"2025-12-09T17:47:47.6023552+05:00","updatedAt":"2025-12-09T17:47:47.6023552+05:00"}
+{
+    "accounts": [
+        {
+            "login": "fff.ru",
+            "password": "1@5hv^^8w@cw",
+            "url": "https://fff.ru",
+            "cratedAt": "2025-12-10T22:51:26.1519513+05:00",
+            "updatedAt": "2025-12-10T22:51:26.1519513+05:00"
+        }
+    ],
+    "updatedAt": "2025-12-10T22:51:26.15249+05:00"
+}

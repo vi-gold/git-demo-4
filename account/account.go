@@ -1,9 +1,7 @@
 package account
 
 import (
-	"encoding/json"
 	"errors"
-	"fmt"
 	"math/rand/v2"
 	"net/url"
 	"time"
@@ -22,18 +20,12 @@ type Account struct {
 	UpdatedAt time.Time `json:"updatedAt"`
 }
 
-func (acc Account) ToBytes() ([]byte, error) {
-	file, err := json.Marshal(acc)
-	if err != nil {
-		return nil, err
-	}
-	return file, nil
-}
-
-func (acc Account) OutputPassword() {
+func (acc *Account) OutputPassword() {
 	color.Cyan(acc.Login)
-	fmt.Println(acc.Password, acc.Url)
-	fmt.Println()
+	color.Cyan(acc.Password)
+	color.Cyan(acc.Url)
+	//fmt.Println(acc.Password, acc.Url)
+	//fmt.Println()
 }
 
 func (acc *Account) generatePassword(length int) {
@@ -59,16 +51,11 @@ func NewAccount(login, password, urlString string) (*Account, error) {
 		Login:     login,
 		Password:  password,
 	}
-
 	// Демонстрация тегов в полях структуры для json
 	//field, _ := reflect.TypeOf(newAcc).Elem().FieldByName("login")
 	//fmt.Println(string(field.Tag))
-
 	if newAcc.Password == "" {
-		var length int
-		fmt.Print("\nВведите длинну пароля: ")
-		fmt.Scan(&length)
-		newAcc.generatePassword(length)
+		newAcc.generatePassword(12)
 	}
 	return newAcc, nil
 }

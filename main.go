@@ -4,6 +4,8 @@ import (
 	"demo/password/account"
 	"demo/password/files"
 	"fmt"
+
+	"github.com/fatih/color"
 )
 
 func main() {
@@ -29,7 +31,34 @@ func main() {
 	// a := [4]int{1, 2, 3, 4}
 	// reverse(&a) // Меняет порядок элементов на обратный
 	// fmt.Println(a)
-	createAccount()
+
+Menu:
+	for {
+		operation := getMenu()
+		switch operation {
+		case 1:
+			createAccount()
+		case 2:
+			findAccount()
+		case 3:
+			deleteAccount()
+		case 4:
+			fmt.Println("Выход")
+			break Menu
+		}
+
+	}
+}
+
+func getMenu() int {
+	fmt.Print("---Менеджер паролей---\n-Меню-\n1. Создать аккаунт\n2. Найти аккаунт\n3. Удалить аккаунт\n4. Выход\nВведите операцию: ")
+	var operation int
+	fmt.Scanln(&operation)
+	if operation < 1 || operation > 4 {
+		color.Cyan("Не валидная операция.\nВведите повторно!")
+		fmt.Println()
+	}
+	return operation
 }
 
 func createAccount() {
@@ -43,14 +72,25 @@ func createAccount() {
 		return
 	}
 	myAccount.OutputPassword()
-	fmt.Println(myAccount)
+	//fmt.Println(myAccount)
 
-	file, err := myAccount.ToBytes()
+	// Format newAccont to byte before create []vaultAccounts
+	//file, err := myAccount.ToBytes()
+	vault := account.NewVault()
+	vault.AddAccount(*myAccount)
+	data, err := vault.ToBytes()
 	if err != nil {
 		fmt.Println("Не удалось преобразовать данные в json")
 		return
 	}
-	files.WriteFile(file, "data.json")
+	files.WriteFile(data, "data.json")
+}
+
+func findAccount() {
+	// TODO
+}
+func deleteAccount() {
+	//TODO
 }
 
 func promptData(prompt string) string {
